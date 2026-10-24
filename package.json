@@ -1,0 +1,13 @@
+{
+  "name": "faseela",
+  "version": "1.0.0",
+  "description": "Multi-location QR table-ordering with live kitchen + cashier screens (zero external deps)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "private": true
+}

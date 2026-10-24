@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Faseela — Product Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,500..700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .abar { display:flex; align-items:center; gap:18px; padding:14px 26px; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; background:rgba(255,255,255,.88); backdrop-filter:saturate(160%) blur(10px); }
+  .abar h1 { font-size:1.5rem; font-family:"Anton",sans-serif; font-weight:400; letter-spacing:.02em; text-transform:uppercase; }
+  .abar h1 small { display:block; font-family:"Hanken Grotesk"; font-weight:600; font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; color:var(--coffee-soft); margin-top:3px; }
+  .abar .spacer { margin-left:auto; }
+  .abar a.nav { color:var(--pine); font-weight:700; text-decoration:none; font-size:.86rem; }
+
+  .awrap { display:grid; grid-template-columns:360px 1fr; gap:22px; padding:22px 26px 70px; max-width:1300px; margin:0 auto; align-items:start; }
+  .card { background:var(--cream); border:1px solid var(--line); border-radius:16px; padding:18px 18px 20px; margin-bottom:18px; }
+  .card h2 { font-family:"Fraunces",serif; font-size:1.2rem; margin-bottom:14px; }
+  .panel { position:sticky; top:88px; }
+
+  label.f { display:block; font-weight:700; font-size:.76rem; letter-spacing:.04em; text-transform:uppercase; color:var(--coffee-soft); margin:12px 0 5px; }
+  .in, select.in, textarea.in { width:100%; padding:11px 13px; border-radius:11px; border:1.5px solid var(--line); background:var(--parchment); color:var(--espresso); font-family:inherit; font-size:.92rem; }
+  .in:focus, select.in:focus, textarea.in:focus { outline:none; border-color:var(--pine); }
+  textarea.in { resize:vertical; min-height:58px; }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .chk { display:flex; align-items:center; gap:8px; margin-top:12px; font-size:.9rem; color:var(--coffee); font-weight:600; }
+  .btn-add { width:100%; margin-top:16px; font-family:inherit; font-weight:800; font-size:.92rem; cursor:pointer; padding:12px; border-radius:11px; border:none; background:linear-gradient(135deg,#9a5a2a,var(--pine)); color:#fff; box-shadow:0 10px 22px -12px rgba(114,62,30,.55); }
+  .btn-add:hover { filter:brightness(1.05); }
+  .btn-add.ghost { background:transparent; border:1.5px solid var(--line); color:var(--espresso); box-shadow:none; }
+
+  /* add-collection bar (right column) */
+  .rightcol { min-width:0; }
+  .colcard h2 { margin-bottom:12px; }
+  .colrow { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .colrow .in { flex:1; min-width:150px; }
+  .colrow .colbtn { margin-top:0; width:auto; white-space:nowrap; padding:11px 16px; }
+
+  /* image upload */
+  .filewrap { display:flex; gap:11px; align-items:center; }
+  input[type=file].in { padding:9px 11px; }
+  .fprev { width:46px; height:46px; border-radius:10px; object-fit:cover; border:1px solid var(--line); display:none; flex:none; }
+  .fhint { font-size:.72rem; color:var(--coffee-soft); margin-top:5px; }
+
+  .col-sec { background:var(--cream); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-bottom:16px; }
+  .col-head { display:flex; align-items:center; gap:10px; padding-bottom:12px; border-bottom:1px solid var(--line); margin-bottom:8px; }
+  .col-head h3 { font-family:"Fraunces",serif; font-size:1.3rem; }
+  .col-head .note { color:var(--coffee-soft); font-size:.84rem; }
+  .col-head .cnt { background:var(--parchment-2); color:var(--coffee); font-weight:800; font-size:.74rem; padding:3px 10px; border-radius:999px; }
+  .col-head .delcol { margin-left:auto; border:none; background:transparent; color:var(--coffee-soft); cursor:pointer; font-size:.8rem; font-weight:700; }
+  .col-head .delcol:hover { color:var(--rust); }
+
+  .prow { display:flex; align-items:center; gap:13px; padding:11px 4px; border-bottom:1px dashed var(--line); }
+  .prow:last-child { border-bottom:none; }
+  .pthumb { width:46px; height:46px; border-radius:11px; flex:none; background:var(--parchment-2); background-size:cover; background-position:center; display:grid; place-items:center; overflow:hidden; }
+  .pthumb svg { width:24px; height:24px; opacity:.85; }
+  .pinfo { flex:1; min-width:0; }
+  .pinfo h4 { font-size:1rem; font-weight:700; display:flex; align-items:center; gap:8px; }
+  .pinfo .pbadge { font-size:.64rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; background:rgba(255,122,26,.16); color:var(--pine); padding:2px 7px; border-radius:999px; }
+  .pinfo .pdesc { color:var(--coffee-soft); font-size:.8rem; margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:46ch; }
+  .pprice { font-family:"Fraunces",serif; font-weight:700; font-size:1.05rem; color:var(--pine); white-space:nowrap; }
+  .ptog { font-family:inherit; font-size:.72rem; font-weight:700; cursor:pointer; padding:6px 9px; border-radius:8px; border:1.5px solid var(--line); background:transparent; color:var(--coffee); }
+  .ptog.off { color:var(--rust); border-color:rgba(212,98,60,.4); }
+  .pedit { font-family:inherit; font-size:.72rem; font-weight:700; cursor:pointer; padding:6px 9px; border-radius:8px; border:1.5px solid var(--line); background:transparent; color:var(--pine); }
+  .pedit:hover { background:rgba(255,122,26,.1); }
+  .pdel { border:none; background:transparent; color:var(--coffee-soft); cursor:pointer; font-size:1rem; padding:4px 6px; }
+  .pdel:hover { color:var(--rust); }
+  .prow.editing { background:rgba(255,122,26,.07); border-radius:10px; }
+  .empty { color:var(--coffee-soft); font-style:italic; font-family:"Fraunces",serif; padding:10px 4px; }
+
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; background:var(--espresso); color:var(--parchment); padding:12px 20px; border-radius:12px; font-weight:600; font-size:.9rem; transition:.25s; pointer-events:none; z-index:50; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* login overlay */
+  .login-scrim { position:fixed; inset:0; z-index:200; display:grid; place-items:center; background:rgba(74,48,22,.35); backdrop-filter:blur(8px); padding:24px; }
+  .login-card { background:var(--cream); border:1px solid var(--line); border-radius:18px; padding:30px 28px; max-width:380px; width:100%; box-shadow:0 30px 70px -20px rgba(0,0,0,.6); text-align:left; }
+  .login-card h2 { font-family:"Fraunces",serif; font-size:1.5rem; margin-bottom:4px; }
+  .login-card p { color:var(--coffee-soft); font-size:.86rem; margin-bottom:8px; }
+  .login-err { color:var(--rust); font-size:.82rem; font-weight:700; min-height:1.1em; margin-top:8px; }
+
+  /* header bits */
+  .abar .who { font-weight:700; font-size:.86rem; color:var(--coffee); }
+  .abar select.storeSwitch { padding:8px 12px; border-radius:10px; border:1.5px solid var(--line); background:var(--parchment); color:var(--espresso); font-family:inherit; font-weight:700; font-size:.84rem; }
+  .abar .logout { font-family:inherit; font-weight:700; font-size:.82rem; cursor:pointer; padding:8px 14px; border-radius:999px; border:1.5px solid var(--line); background:transparent; color:var(--coffee); }
+  .abar .logout:hover { border-color:var(--rust); color:var(--rust); }
+
+  /* stores panel (master) */
+  .stores-wrap { max-width:1300px; margin:0 auto; padding:22px 26px 0; }
+  .store-row { display:flex; align-items:center; gap:12px; padding:11px 4px; border-bottom:1px dashed var(--line); }
+  .store-row:last-child { border-bottom:none; }
+  .store-row .sname { font-weight:700; }
+  .store-row .smeta { color:var(--coffee-soft); font-size:.82rem; }
+  .store-row .stax { margin-left:auto; font-family:"Fraunces",serif; font-weight:700; color:var(--pine); }
+  .store-row .sdel { border:none; background:transparent; color:var(--coffee-soft); cursor:pointer; font-size:1rem; padding:4px 6px; }
+  .store-row .sdel:hover { color:var(--rust); }
+  .store-add { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; align-items:end; margin-top:14px; }
+
+  @media (max-width:840px){ .awrap{ grid-template-columns:1fr; } .panel{ position:static; } }
+</style>
+</head>
+<body>
+
+<!-- ===== login overlay ===== -->
+<div class="login-scrim" id="loginScrim">
+  <form class="login-card" id="loginForm" autocomplete="on">
+    <img class="brand-logo" src="logo.png" alt="Faseela" style="height:44px;margin-bottom:14px" />
+    <h2>Dashboard login</h2>
+    <p>Log in with your store account — or as the master admin to manage stores.</p>
+    <label class="f" for="luser">Username</label>
+    <input class="in" id="luser" autocomplete="username" required />
+    <label class="f" for="lpass">Password</label>
+    <input class="in" id="lpass" type="password" autocomplete="current-password" required />
+    <div class="login-err" id="loginErr"></div>
+    <button class="btn-add" type="submit">Log in</button>
+  </form>
+</div>
+
+<!-- ===== dashboard (shown after login) ===== -->
+<div id="dash" hidden>
+<header class="abar">
+  <a href="index.html" class="brand-link"><img class="brand-logo" src="logo.png" alt="Faseela" /></a>
+  <h1 id="dashTitle">Product Dashboard<small id="dashSub">Collections &amp; menu items</small></h1>
+  <span class="spacer"></span>
+  <select class="storeSwitch" id="storeSwitch" hidden title="Editing which store"></select>
+  <span class="who" id="who"></span>
+  <a class="nav" id="viewMenuLink" href="#" target="_blank">View menu →</a>
+  <button class="logout" id="logoutBtn">Log out</button>
+</header>
+
+<!-- master only: manage stores -->
+<section class="stores-wrap" id="storesPanel" hidden>
+  <div class="card">
+    <h2>Stores</h2>
+    <div id="storesList"></div>
+    <form id="storeForm" class="store-add" autocomplete="off">
+      <div><label class="f" for="sName">Store name</label><input class="in" id="sName" required placeholder="Faseela Seef" /></div>
+      <div><label class="f" for="sAddr">Address</label><input class="in" id="sAddr" placeholder="8 Harbor Walk" /></div>
+      <div><label class="f" for="sTax">Tax %</label><input class="in" id="sTax" type="number" step="0.001" min="0" placeholder="7" /></div>
+      <div><label class="f" for="sUser">Login username</label><input class="in" id="sUser" required placeholder="lakeside" /></div>
+      <div><label class="f" for="sPass">Login password</label><input class="in" id="sPass" required placeholder="set a password" /></div>
+      <button class="btn-add" type="submit" style="margin-top:0">+ Add store</button>
+    </form>
+    <div class="fhint">New stores start with a copy of the base menu, then you edit them. They log in with the username/password set here.</div>
+  </div>
+</section>
+
+<main class="awrap">
+  <!-- ===== add forms ===== -->
+  <section class="panel">
+    <div class="card">
+      <h2 id="prodFormTitle">Add product</h2>
+      <form id="prodForm" autocomplete="off">
+        <label class="f" for="pName">Name</label>
+        <input class="in" id="pName" required placeholder="Turtle Mocha" />
+
+        <label class="f" for="pCat">Collection</label>
+        <select class="in" id="pCat" required></select>
+
+        <div class="row2">
+          <div>
+            <label class="f" for="pPrice">Price</label>
+            <input class="in" id="pPrice" type="number" step="0.01" min="0" required placeholder="2.10" />
+          </div>
+          <div>
+            <label class="f" for="pCal">Calories</label>
+            <input class="in" id="pCal" type="number" min="0" placeholder="420" />
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label class="f" for="pBadge">Badge</label>
+            <input class="in" id="pBadge" placeholder="Signature (optional)" />
+          </div>
+          <div>
+            <label class="f" for="pTone">Placeholder tone</label>
+            <select class="in" id="pTone">
+              <option value="cream">Cream</option><option value="mocha">Mocha</option>
+              <option value="caramel">Caramel</option><option value="coffee">Coffee</option>
+              <option value="espresso">Espresso</option><option value="cold">Cold</option>
+              <option value="green">Green</option><option value="berry">Berry</option>
+              <option value="wheat">Wheat</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="f">Image <span style="text-transform:none;font-weight:500;color:var(--coffee-soft)">(optional — upload a photo or paste a URL; blank uses a gradient)</span></label>
+        <div class="filewrap">
+          <input class="in" id="pImgFile" type="file" accept="image/png,image/jpeg,image/webp" />
+          <img class="fprev" id="pImgPrev" alt="" />
+        </div>
+        <input class="in" id="pImg" placeholder="…or paste an image URL" style="margin-top:8px" />
+        <div class="fhint">Uploads (png/jpg/webp, ≤4MB) are saved to the server's img/ folder.</div>
+
+        <label class="f" for="pDesc">Description</label>
+        <textarea class="in" id="pDesc" placeholder="Espresso, chocolate, caramel, whipped cream."></textarea>
+
+        <label class="chk"><input type="checkbox" id="pAvail" checked /> Available on the menu</label>
+        <button class="btn-add" type="submit" id="prodSubmit">+ Add product</button>
+        <button class="btn-add ghost" type="button" id="prodCancel" hidden style="margin-top:8px">Cancel edit</button>
+      </form>
+    </div>
+
+  </section>
+
+  <!-- ===== add collection + collections/products (right) ===== -->
+  <div class="rightcol">
+    <div class="card colcard">
+      <h2>Add collection</h2>
+      <form id="colForm" class="colrow" autocomplete="off">
+        <input class="in" id="cLabel" required placeholder="Collection name — e.g. Cakes" />
+        <input class="in" id="cNote" placeholder="Tagline (optional)" />
+        <button class="btn-add ghost colbtn" type="submit">+ Add collection</button>
+      </form>
+    </div>
+    <section class="alist" id="catalog"></section>
+  </div>
+</main>
+</div><!-- /#dash -->
+
+<div class="toast" id="toast"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>

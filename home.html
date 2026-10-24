@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Faseela — Sandwiches, Pastries &amp; Sweets</title>
+<meta name="theme-color" content="#0c0805" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,500..700;1,9..144,500..600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="home.css" />
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="logo" href="home.html">
+      <img class="brand-logo" src="logo.png" alt="Faseela" />
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#featured">Featured</a>
+      <a href="#vibe">The Menu</a>
+      <a href="#how">How it works</a>
+      <a href="index.html?table=7">Find your table</a>
+    </nav>
+    <a class="nav-cta" href="index.html">Order now ↗</a>
+    <button class="nav-burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="hero-in">
+    <div class="hero-copy">
+      <span class="eyebrow reveal">● فسيلة · Fresh from our kitchen</span>
+      <h1 class="reveal d1">
+        <span class="line">FRESH</span>
+        <span class="line grad">DAILY<em>.</em></span>
+      </h1>
+      <p class="hero-sub reveal d2">Sandwiches, pastries and homemade sweets. Scan the code at your table, build your order, and we'll bring it to your seat — no line, no rush.</p>
+      <div class="hero-cta reveal d3">
+        <a class="btn btn-glow" href="index.html">Order now</a>
+        <a class="btn btn-out" href="#featured">Peek the menu</a>
+      </div>
+      <div class="hero-stats reveal d4">
+        <div><b>31</b><span>menu items</span></div>
+        <div><b>~6 min</b><span>to your table</span></div>
+        <div><b>100%</b><span>made fresh</span></div>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="ring"></div>
+      <div class="cup-glow"></div>
+      <div class="cup">
+        <div class="steam"><span></span><span></span><span></span></div>
+        <svg viewBox="0 0 200 230" fill="none">
+          <defs>
+            <linearGradient id="cupg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffb24d"/><stop offset="1" stop-color="#ff6a1a"/>
+            </linearGradient>
+          </defs>
+          <path d="M40 70 H160 L150 200 a18 18 0 0 1 -18 16 H58 a18 18 0 0 1 -18 -16 Z" fill="url(#cupg)"/>
+          <path d="M160 90 h18 a26 26 0 0 1 0 52 h-22" stroke="#ff8a3a" stroke-width="12" fill="none" stroke-linecap="round"/>
+          <ellipse cx="100" cy="70" rx="60" ry="15" fill="#2a1c12"/>
+          <ellipse cx="100" cy="66" rx="60" ry="14" fill="#3a2718"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#marquee">scroll<span></span></a>
+</section>
+
+<!-- ===== MARQUEE ===== -->
+<section class="marquee" id="marquee">
+  <div class="marquee-track">
+    <span>SANDWICHES ✦ PASTRIES ✦ SWEETS ✦ SCAN TO ORDER ✦ NO LINE ✦ </span>
+    <span>SANDWICHES ✦ PASTRIES ✦ SWEETS ✦ SCAN TO ORDER ✦ NO LINE ✦ </span>
+  </div>
+</section>
+
+<!-- ===== FEATURED ===== -->
+<section class="section featured" id="featured">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">The drops</span>
+      <h2>This season's <em>spotlight</em></h2>
+      <p>Our signatures and the favourites regulars keep coming back for.</p>
+    </div>
+    <div class="drink-grid" id="drinkGrid"></div>
+  </div>
+</section>
+
+<!-- ===== PICK YOUR VIBE (categories) ===== -->
+<section class="section vibe" id="vibe">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Pick your vibe</span>
+      <h2>However you take it</h2>
+      <p>Jump straight into the part of the menu you're craving.</p>
+    </div>
+    <div class="vibe-grid" id="vibeGrid"></div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section how" id="how">
+  <div class="wrap">
+    <div class="sec-head reveal center">
+      <span class="kicker">Dead simple</span>
+      <h2>Three taps to <em>lunch</em></h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="n">01</span><h3>Scan</h3><p>Point your camera at the QR code on your table. The menu opens, locked to your seat.</p></div>
+      <div class="step reveal d1"><span class="n">02</span><h3>Order</h3><p>Build your order, choose pay-now or pay-at-counter, and send it to the kitchen.</p></div>
+      <div class="step reveal d2"><span class="n">03</span><h3>Enjoy</h3><p>Watch it go from <i>preparing</i> to <i>ready</i> in real time. We bring it over. Relax.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATEMENT BAND ===== -->
+<section class="band">
+  <div class="band-glow"></div>
+  <div class="wrap band-in reveal">
+    <h2>From our kitchen<br>to <span class="grad">your table.</span></h2>
+    <p>Falafel, fajita and halloumi sandwiches, warm pastries and Umm Ali — made fresh, served fast.</p>
+    <a class="btn btn-glow" href="index.html">Start an order</a>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER ===== -->
+<section class="news">
+  <div class="wrap news-in reveal">
+    <div>
+      <h2>Get the <em>secret menu</em>.</h2>
+      <p>New dishes, specials, and the occasional free cookie. No spam, ever.</p>
+    </div>
+    <form id="newsForm" class="news-form">
+      <input type="email" placeholder="you@faseela.bh" required />
+      <button class="btn btn-glow" type="submit">Join</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-brand">
+      <a class="logo" href="home.html">
+        <img class="brand-logo" src="logo.png" alt="Faseela" />
+      </a>
+      <p>Fresh daily. Served warm.</p>
+    </div>
+    <div class="foot-cols">
+      <div><h4>Order</h4><a href="index.html">Counter pickup</a><a href="index.html?table=7">From a table</a><a href="#featured">Featured</a></div>
+      <div><h4>Staff</h4><a href="kds.html">Kitchen display</a><a href="cashier.html">Billing / cashier</a><a href="qr-codes.html">Print QR codes</a></div>
+      <div><h4>Hours</h4><span>Mon–Fri · 6a–8p</span><span>Sat–Sun · 7a–9p</span></div>
+    </div>
+  </div>
+  <div class="foot-base"><span>© Faseela</span><span>QR table ordering</span></div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script src="home.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# SQLite order store (runtime data — regenerated; migrated from orders.json on first run)
+faseela.db
+faseela.db-wal
+faseela.db-shm
+orders.db
+orders.db-wal
+orders.db-shm
+
+# Uploaded product images (runtime; ephemeral on free hosting)
+img/
+
+# Playwright MCP artifacts
+.playwright-mcp/
+
+# OS / editor
+.DS_Store
+
+# Debug screenshots (keep logo.png committed)
+*.jpeg
+/desktop.png
+/mobile-fixed.png
+/wide*.png
+/no-*.png
+/top.png

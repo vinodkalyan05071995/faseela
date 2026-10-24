@@ -1,0 +1,42 @@
+# Render Blueprint — one-click deploy.
+# In Render: New → Blueprint → connect this repo. Render reads this file.
+#
+# Currently on the FREE plan for zero-cost testing. Note: free instances have
+# NO persistent disk and sleep after inactivity, so faseela.db resets on each
+# redeploy/wake — fine for trying it out, not for real service.
+#
+# Node 24 is pinned via .node-version because the app uses the built-in
+# node:sqlite module (flag-free only on Node 24+). Render sets PORT itself and
+# server.js honors it automatically.
+#
+# To switch to real persistence later, change `plan: free` to `plan: starter`
+# and uncomment the envVars + disk blocks below. The disk keeps BOTH the
+# database (orders + customer points + product catalog) AND uploaded product
+# images across deploys (DB_FILE and IMG_DIR both live on the mounted disk).
+# For a real deployment also set MASTER_USER / MASTER_PASS to replace the
+# default admin/admin dashboard login.
+services:
+  - type: web
+    name: faseela
+    runtime: node
+    plan: starter            # paid: always-on, no sleep, supports a persistent disk
+    region: frankfurt         # closest Render region to Bahrain (no ME region exists)
+    branch: main
+    buildCommand: ""          # zero dependencies — nothing to build
+    startCommand: node server.js
+    envVars:
+      - key: DB_FILE
+        value: /data/faseela.db  # database lives on the persistent disk
+      - key: IMG_DIR
+        value: /data/img       # uploaded product images live on the disk too
+      # Master admin dashboard login (replaces the default admin/admin).
+      # The username lives here; the password is entered in the Render dashboard
+      # at deploy time (sync: false) so the secret never lands in git.
+      - key: MASTER_USER
+        value: faseelaadmin
+      - key: MASTER_PASS
+        sync: false
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1

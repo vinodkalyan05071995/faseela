@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>Faseela — Order Menu</title>
+<meta name="theme-color" content="#703818" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="menu.css" />
+</head>
+<body>
+
+<!-- ===== APP BAR ===== -->
+<header class="appbar">
+  <div class="appbar-in">
+    <a class="appbar-brand" href="home.html" aria-label="Faseela home">
+      <img class="appbar-logo" src="logo.png" alt="Faseela" />
+    </a>
+    <button class="bag-btn" id="cartBtn" aria-label="Your order">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ===== STORE HEADER ===== -->
+<section class="store">
+  <div class="store-in">
+    <div class="store-logo"><img src="logo.png" alt="Faseela" /></div>
+    <h1 class="store-name">Faseela</h1>
+    <div class="store-meta">
+      <span id="tableChip" class="loc-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M6 9v11M18 9v11M3 9l9-5 9 5"/></svg>
+        <span id="tableChipText">Table —</span>
+      </span>
+      <a class="loc-chip ghost" href="qr-codes.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
+        In-store
+      </a>
+    </div>
+    <p class="store-blurb" id="heroLede">
+      Sandwiches, pastries and homemade sweets — made to order. Scan, tap, and we bring it to your table.
+    </p>
+    <div class="store-tags">
+      <span>🌴 Fresh daily</span>
+      <span>🔥 Made to order</span>
+      <span>⚡ ~6 min to your seat</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CATEGORY NAV ===== -->
+<nav class="catnav" id="catnavBar">
+  <div class="catnav-inner" id="catnav"></div>
+</nav>
+
+<!-- ===== MENU ===== -->
+<main class="wrap" id="menuRoot"></main>
+
+<footer class="foot">
+  <div class="foot-social">
+    <a href="home.html" class="fs-link"><span class="fs-ic">✦</span><span>Our story</span></a>
+    <a href="#" class="fs-link"><span class="fs-ic">◎</span><span>Instagram</span></a>
+    <a href="#" class="fs-link"><span class="fs-ic">✆</span><span>WhatsApp</span></a>
+  </div>
+  <p class="foot-brand"><a href="home.html">Faseela</a> — Fresh daily. Served warm.</p>
+  <p class="foot-staff">Staff · <a href="kds.html">Kitchen</a> · <a href="cashier.html">Cashier</a> · <a href="qr-codes.html">QR codes</a></p>
+  <p class="foot-copy">© 2026 Faseela</p>
+</footer>
+
+<!-- ===== CART DRAWER ===== -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Your order">
+  <div class="drawer-head">
+    <div>
+      <h2>Your Order</h2>
+      <div class="drawer-context" id="drawerContext">Table —</div>
+    </div>
+    <button class="x" id="drawerClose" aria-label="Close">&times;</button>
+  </div>
+
+  <div class="cart-items" id="cartItems"></div>
+
+  <div class="drawer-foot" id="drawerFoot" hidden>
+    <div class="ordertype" id="orderType">
+      <button data-type="table" class="active">Bring to my table<small id="otTable">Table —</small></button>
+      <button data-type="counter">Pick up at counter<small>Skip the wait</small></button>
+    </div>
+    <div class="namefield">
+      <input id="custName" type="text" maxlength="40" autocomplete="name"
+             placeholder="Name (optional)" />
+      <input id="custPhone" type="tel" maxlength="20" autocomplete="tel" inputmode="numeric"
+             placeholder="Phone — earn points (optional)" />
+      <span class="namehint" id="nameHint">Add your phone to earn 1 point per $1 spent. Optional — skip anytime.</span>
+    </div>
+    <div class="paytype" id="payType">
+      <button data-pay="later" class="active">Pay at counter<small id="ptLater">Cash or card</small></button>
+      <button data-pay="online">Pay now<small>Card · skip the queue</small></button>
+    </div>
+    <div class="totals">
+      <div class="row"><span>Subtotal</span><span id="tSub">din 0.000</span></div>
+      <div class="row"><span id="taxLabel">Tax</span><span id="tTax">din 0.000</span></div>
+      <div class="row grand"><span>Total</span><span id="tGrand">din 0.000</span></div>
+    </div>
+    <button class="place-btn" id="placeBtn">Place Order</button>
+  </div>
+</aside>
+
+<!-- ===== CONFIRMATION ===== -->
+<div class="confirm-scrim" id="confirmScrim">
+  <div class="confirm">
+    <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
+    <h2>Order placed!</h2>
+    <div class="ordernum" id="confirmNum">#000</div>
+    <p id="confirmMsg">We're firing up your order.</p>
+    <div class="eta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="confirmEta">Ready in ~8 min</span></div>
+    <div class="tracker" id="tracker">
+      <div class="step" data-step="new"><span></span>Received</div>
+      <div class="step" data-step="preparing"><span></span>Preparing</div>
+      <div class="step ready" data-step="ready"><span></span>Ready</div>
+    </div>
+    <div class="paidline" id="paidLine"></div>
+    <div class="loyaltyline" id="loyaltyLine" hidden></div>
+    <button class="btn btn-primary" id="confirmDone">Done</button>
+  </div>
+</div>
+
+<!-- ===== PAY NOW (mock card) ===== -->
+<div class="confirm-scrim" id="payScrim">
+  <div class="confirm pay">
+    <div class="pay-head">
+      <span class="pay-badge">Demo checkout</span>
+      <h2>Pay din <span id="payAmount">0.000</span></h2>
+      <p>No real card is charged — this is a local demo.</p>
+    </div>
+    <form id="payForm" autocomplete="off">
+      <label>Card number
+        <input id="ccNum" inputmode="numeric" placeholder="4242 4242 4242 4242" required />
+      </label>
+      <div class="pay-row">
+        <label>Expiry
+          <input id="ccExp" placeholder="MM/YY" required />
+        </label>
+        <label>CVC
+          <input id="ccCvc" inputmode="numeric" placeholder="123" required />
+        </label>
+      </div>
+      <button class="place-btn" type="submit" id="payNowBtn">Pay din <span id="payAmount2">0.000</span></button>
+      <button class="btn btn-ghost" type="button" id="payCancel" style="width:100%;margin-top:10px">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg><span id="toastText">Added</span></div>
+
+<script src="data.js"></script>
+<script src="locations.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

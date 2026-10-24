@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Faseela — Table QR Codes (Staff)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,500..700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+  .controls {
+    background: var(--cream); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px; margin: 26px 0; display: grid; gap: 16px;
+    grid-template-columns: 1.4fr 1fr .9fr auto; align-items: end;
+  }
+  .controls.single { grid-template-columns: 2fr 1fr auto; }
+  .controls label { display: block; font-weight: 700; font-size: 0.82rem; margin-bottom: 6px; color: var(--coffee); }
+  .controls input, .controls select {
+    width: 100%; padding: 12px 14px; border-radius: 11px; border: 1.5px solid var(--line);
+    font-family: inherit; font-size: 0.95rem; background: var(--parchment); color: var(--espresso);
+  }
+  .controls input:focus, .controls select:focus { outline: none; border-color: var(--pine); }
+  .hint { font-size: 0.78rem; color: var(--coffee-soft); margin-top: 8px; grid-column: 1 / -1; }
+
+  .qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; padding-bottom: 60px; }
+  .qr-card {
+    background: var(--cream); border: 1px solid var(--line); border-radius: 16px;
+    padding: 20px 18px 22px; text-align: center; position: relative; overflow: hidden;
+    page-break-inside: avoid;
+  }
+  .qr-card::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 6px;
+    background: linear-gradient(90deg, var(--pine), var(--caramel));
+  }
+  .qr-card .tname { font-family: "Fraunces", serif; font-size: 1.5rem; font-weight: 600; margin-top: 6px; }
+  .qr-card .tnum { font-family: "Fraunces", serif; font-size: 2.8rem; color: var(--pine); line-height: 1; }
+  .qr-box { width: 168px; height: 168px; margin: 14px auto 12px; background: #fff; padding: 10px; border-radius: 12px; display: grid; place-items: center; }
+  .qr-box img, .qr-box canvas { width: 100% !important; height: 100% !important; }
+  .qr-card .scan { font-size: 0.82rem; color: var(--coffee-soft); font-weight: 600; }
+  .qr-card .brandline { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--caramel); font-weight: 800; margin-top: 4px; }
+
+  .page-head { padding: 40px 0 6px; }
+  .page-head h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+  .page-head p { color: var(--coffee); max-width: 60ch; margin-top: 10px; }
+
+  @media print {
+    .topbar, .controls, .page-head p, .noprint { display: none !important; }
+    body { background: #fff; color: #111; }
+    body::after { display: none; }
+    .qr-grid { grid-template-columns: repeat(3, 1fr); }
+    .qr-card { background: #fff; border: 1px solid #ccc; color: #111; }
+    .qr-card .tname, .qr-card .tnum, .qr-card .brandline { color: #111 !important; }
+    .qr-card .scan { color: #555 !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar noprint">
+  <div class="wrap topbar-inner">
+    <a class="brand brand-link" href="index.html">
+      <img class="brand-logo" src="logo.png" alt="Faseela" />
+    </a>
+    <a class="btn btn-primary" href="index.html" style="margin-left:auto;text-decoration:none;font-size:.86rem;padding:10px 18px">View customer menu</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <h1>Table QR Codes</h1>
+    <p>Each code opens the menu pre-set to that table. Print this sheet and place one on every table — when a guest scans, their order is automatically tagged to that seat. Set the public URL below to where you host the site, then print.</p>
+  </div>
+
+  <div class="controls noprint" id="controls">
+    <div id="locField">
+      <label for="locSelect">Location</label>
+      <select id="locSelect"></select>
+    </div>
+    <div>
+      <label for="baseUrl">Public menu URL (where index.html is hosted)</label>
+      <input id="baseUrl" type="text" placeholder="https://faseela.onrender.com/index.html" />
+    </div>
+    <div>
+      <label for="tableCount"># of tables</label>
+      <input id="tableCount" type="number" min="1" max="60" value="12" />
+    </div>
+    <button class="btn btn-primary" onclick="window.print()" style="height:46px">Print sheet</button>
+    <p class="hint" id="hint"></p>
+  </div>
+
+  <div class="qr-grid" id="qrGrid"></div>
+</main>
+
+<script src="locations.js"></script>
+<script>
+  const grid = document.getElementById("qrGrid");
+  const baseInput = document.getElementById("baseUrl");
+  const countInput = document.getElementById("tableCount");
+  const locSelect = document.getElementById("locSelect");
+  const hint = document.getElementById("hint");
+
+  // ---- populate the location picker from the registry ----
+  const LOCS = window.LOC_API.listLocations();
+  locSelect.innerHTML = LOCS.map((l) => `<option value="${l.id}">${l.name}</option>`).join("");
+  // single-store setup: hide the picker, keep the layout tidy
+  if (LOCS.length === 1) {
+    document.getElementById("locField").style.display = "none";
+    document.getElementById("controls").classList.add("single");
+  }
+
+  // Default base = current site's index.html (works for local file:// preview too)
+  function defaultBase() {
+    return new URL("index.html", location.href).href;
+  }
+  baseInput.value = defaultBase();
+
+  // build a menu URL pinned to a store + table
+  function buildUrl(base, locId, table) {
+    let u = base;
+    u += (u.includes("?") ? "&" : "?") + "loc=" + encodeURIComponent(locId);
+    u += "&table=" + table;
+    return u;
+  }
+
+  function render() {
+    const base = baseInput.value.trim() || defaultBase();
+    const locId = locSelect.value || (LOCS[0] && LOCS[0].id);
+    const store = LOCS.find((l) => l.id === locId) || LOCS[0];
+    const n = Math.max(1, Math.min(60, parseInt(countInput.value) || 12));
+    grid.innerHTML = "";
+    for (let i = 1; i <= n; i++) {
+      const url = buildUrl(base, store.id, i);
+      const card = document.createElement("div");
+      card.className = "qr-card";
+      card.innerHTML = `
+        <div class="brandline">${store.name}</div>
+        <div class="tname">Table</div>
+        <div class="tnum">${i}</div>
+        <div class="qr-box" id="qr-${i}"></div>
+        <div class="scan">📷 Scan to order from this table</div>`;
+      grid.appendChild(card);
+      new QRCode(card.querySelector("#qr-" + i), {
+        text: url, width: 200, height: 200,
+        colorDark: "#271a11", colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+    }
+    hint.textContent = "Example link: " + buildUrl(base, store.id, 1);
+  }
+
+  baseInput.addEventListener("input", render);
+  countInput.addEventListener("input", render);
+  locSelect.addEventListener("change", render);
+  render();
+</script>
+</body>
+</html>

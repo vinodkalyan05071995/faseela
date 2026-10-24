@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Faseela — Billing / Cashier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,500..700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .cbar { display:flex; align-items:center; gap:18px; padding:16px 26px; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; background:rgba(255,255,255,.88); backdrop-filter:saturate(160%) blur(10px); }
+  .cbar h1 { font-size:1.5rem; font-family:"Anton",sans-serif; font-weight:400; letter-spacing:.02em; text-transform:uppercase; }
+  .cbar h1 small { display:block; font-family:"Hanken Grotesk"; font-weight:600; font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; color:var(--coffee-soft); margin-top:3px; }
+  .cbar .spacer { margin-left:auto; }
+  .cbar a { color:var(--pine); font-weight:700; text-decoration:none; font-size:.86rem; }
+  .clive { display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:.82rem; padding:7px 14px; border-radius:999px; background:var(--parchment-2); }
+  .clive .dot { width:9px; height:9px; border-radius:50%; background:#caa23a; }
+  .clive.on .dot { background:#109070; animation:livepulse 2s infinite; }
+  @keyframes livepulse { 0%{box-shadow:0 0 0 0 rgba(31,157,99,.5)} 70%{box-shadow:0 0 0 7px rgba(31,157,99,0)} 100%{box-shadow:0 0 0 0 rgba(31,157,99,0)} }
+
+  .summary { display:flex; gap:14px; flex-wrap:wrap; padding:18px 26px 0; max-width:1300px; margin:0 auto; }
+  .stat { background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:14px 18px; min-width:150px; }
+  .stat .v { font-family:"Fraunces",serif; font-size:1.7rem; font-weight:600; color:var(--pine); }
+  .stat .v.due { color:var(--rust); }
+  .stat .k { font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--coffee-soft); font-weight:700; margin-top:2px; }
+
+  .cboard { display:grid; grid-template-columns:1fr 1fr; gap:18px; padding:18px 26px 60px; max-width:1300px; margin:0 auto; }
+  .ccol-head { display:flex; align-items:center; justify-content:space-between; padding:6px 4px 12px; }
+  .ccol-head h2 { font-size:1.2rem; }
+  .ccol-head .cnt { font-family:"Fraunces",serif; font-weight:600; font-size:1.3rem; min-width:32px; height:32px; display:grid; place-items:center; border-radius:9px; padding:0 8px; }
+  .ccol.unpaid .cnt { background:var(--rust); color:#fff; }
+  .ccol.paid .cnt { background:#109070; color:#fff; }
+  .ccol-body { display:flex; flex-direction:column; gap:14px; }
+  .empty { text-align:center; color:var(--coffee-soft); font-style:italic; font-family:"Fraunces",serif; padding:30px; }
+
+  .bcard { background:var(--cream); border:1px solid var(--line); border-radius:16px; padding:16px 18px; box-shadow:var(--shadow); animation:pop .35s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes pop { from{opacity:0; transform:translateY(-8px);} to{opacity:1; transform:none;} }
+  .bcard-top { display:flex; align-items:baseline; justify-content:space-between; gap:10px; padding-bottom:10px; border-bottom:1px solid var(--line); }
+  .bnum { font-family:"Fraunces",serif; font-weight:600; font-size:1.45rem; color:var(--pine); }
+  .bwho { text-align:right; }
+  .bwho .tag { display:inline-block; font-weight:800; font-size:.74rem; padding:3px 10px; border-radius:999px; }
+  .bwho .tag.table { background:#109070; color:#eafffb; }
+  .bwho .tag.counter { background:#d4623c; color:#fff; }
+  .bwho .nm { display:block; font-weight:700; font-size:.95rem; margin-top:3px; }
+  .bill { width:100%; border-collapse:collapse; margin:10px 0; font-size:.92rem; }
+  .bill td { padding:4px 0; vertical-align:top; }
+  .bill td.q { color:var(--rust); font-weight:700; width:34px; }
+  .bill td.p { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .bill-tot { border-top:1px dashed var(--line); padding-top:8px; font-size:.9rem; }
+  .bill-tot .r { display:flex; justify-content:space-between; padding:2px 0; color:var(--coffee); }
+  .bill-tot .r.grand { font-family:"Fraunces",serif; font-size:1.25rem; font-weight:600; color:var(--espresso); padding-top:6px; }
+  .bmeta { display:flex; align-items:center; gap:8px; margin:12px 0; font-size:.78rem; }
+  .pill { padding:4px 10px; border-radius:999px; font-weight:700; font-size:.74rem; }
+  .pill.method { background:var(--parchment-2); color:var(--coffee); }
+  .pill.unpaid { background:rgba(212,98,60,.14); color:var(--rust); }
+  .pill.paidp { background:rgba(31,157,99,.16); color:#1c7d4d; }
+  .bactions { display:flex; gap:8px; flex-wrap:wrap; }
+  .bbtn { font-family:inherit; font-weight:700; font-size:.84rem; cursor:pointer; padding:10px 14px; border-radius:10px; border:1.5px solid var(--line); background:var(--parchment); color:var(--espresso); transition:transform .14s, background .2s; }
+  .bbtn:hover { transform:translateY(-1px); }
+  .bbtn.cash { background:#109070; color:#fff; border-color:#109070; }
+  .bbtn.card { background:var(--pine); color:#fff; border-color:var(--pine); }
+  .bbtn.ghost { background:transparent; }
+
+  .bloyal { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 12px; font-size:.8rem; }
+  .bloyal.add .lin { flex:1; min-width:130px; padding:8px 11px; border-radius:9px; border:1.5px solid var(--line); background:var(--parchment); font-family:inherit; font-size:.84rem; color:var(--espresso); }
+  .bloyal.add .lin:focus { outline:none; border-color:var(--pine); }
+  .bloyal .lbtn { font-family:inherit; font-weight:800; font-size:.8rem; cursor:pointer; padding:8px 16px; border-radius:9px; border:none; background:var(--amber); color:#fff; }
+  .bloyal .lbtn:hover { filter:brightness(1.05); }
+  .bloyal .lph { font-weight:700; color:var(--coffee); }
+  .bloyal .lpts { background:rgba(212,150,40,.18); color:#8a5a12; font-weight:800; padding:3px 9px; border-radius:999px; }
+  .bloyal .lnew { color:#1c7d4d; font-weight:700; }
+  .bloyal .lpend { color:var(--coffee-soft); font-weight:600; }
+  .bloyal .lx { margin-left:auto; border:none; background:transparent; color:var(--coffee-soft); cursor:pointer; font-size:.95rem; line-height:1; padding:2px 4px; }
+  .bloyal .lx:hover { color:var(--rust); }
+
+  @media (max-width:840px){ .cboard{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<header class="cbar">
+  <a href="index.html" class="brand-link"><img class="brand-logo" src="logo.png" alt="Faseela" /></a>
+  <h1>Billing &amp; Cashier<small id="locName">Live Tabs</small></h1>
+  <span class="clive" id="live"><span class="dot"></span><span id="liveText">Connecting…</span></span>
+  <span class="spacer"></span>
+  <a class="loc-link" href="kds.html">Kitchen →</a>
+  <a href="admin.html">Products →</a>
+  <a class="loc-link" href="qr-codes.html">QR codes →</a>
+</header>
+
+<section class="summary">
+  <div class="stat"><div class="v due" id="sDue">$0.00</div><div class="k">Due now</div></div>
+  <div class="stat"><div class="v" id="sPaid">$0.00</div><div class="k">Collected</div></div>
+  <div class="stat"><div class="v" id="sOrders">0</div><div class="k">Open tabs</div></div>
+</section>
+
+<main class="cboard">
+  <section class="ccol unpaid">
+    <div class="ccol-head"><h2>Awaiting payment</h2><span class="cnt" id="count-unpaid">0</span></div>
+    <div class="ccol-body" id="col-unpaid"></div>
+  </section>
+  <section class="ccol paid">
+    <div class="ccol-head"><h2>Paid</h2><span class="cnt" id="count-paid">0</span></div>
+    <div class="ccol-body" id="col-paid"></div>
+  </section>
+</main>
+
+<script src="locations.js"></script>
+<script src="loc-staff.js"></script>
+<script src="cashier.js"></script>
+</body>
+</html>
