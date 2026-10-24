@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="logo.png" type="image/png" />
 <title>Faseela — Kitchen / Counter Display</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,51 +11,51 @@
 <link rel="stylesheet" href="styles.css" />
 <style>
   body.kds {
-    background: #f2eee7;
+    background: #efdcbd;
     background-image:
-      radial-gradient(1000px 600px at 85% -10%, rgba(114,62,30,.07), transparent 60%),
-      radial-gradient(900px 500px at -5% 0%, rgba(20,147,114,.06), transparent 55%);
-    color: #23180d; min-height: 100vh;
+      radial-gradient(1000px 600px at 85% -10%, rgba(87,30,36,.06), transparent 60%),
+      radial-gradient(900px 500px at -5% 0%, rgba(35,64,47,.06), transparent 55%);
+    color: #2e1d14; min-height: 100vh;
   }
   body.kds::after { opacity: .03; }
   .kbar {
     display: flex; align-items: center; gap: 18px;
     padding: 16px 26px; border-bottom: 1px solid var(--line);
-    position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.88); backdrop-filter: saturate(160%) blur(10px);
+    position: sticky; top: 0; z-index: 10; background: rgba(248,238,219,.9); backdrop-filter: saturate(160%) blur(10px);
   }
   .kbar .brand-mark { color: var(--pine); }
   .kbar h1 { font-size: 1.55rem; color: var(--espresso); font-family:"Anton",sans-serif; font-weight:400; letter-spacing:.02em; text-transform:uppercase; }
   .kbar h1 small { display:block; font-family:"Hanken Grotesk"; font-weight:600; font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; color:var(--coffee-soft); margin-top:4px; }
   .live { display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:.82rem; padding:7px 14px; border-radius:999px; background:var(--parchment-2); }
-  .live .dot { width:9px; height:9px; border-radius:50%; background:#c8912f; box-shadow:0 0 0 0 rgba(200,145,47,.6); }
-  .live.on .dot { background:#109070; animation:livepulse 2s infinite; }
-  @keyframes livepulse { 0%{box-shadow:0 0 0 0 rgba(20,147,114,.5)} 70%{box-shadow:0 0 0 7px rgba(20,147,114,0)} 100%{box-shadow:0 0 0 0 rgba(20,147,114,0)} }
+  .live .dot { width:9px; height:9px; border-radius:50%; background:#b8914f; box-shadow:0 0 0 0 rgba(184,145,79,.6); }
+  .live.on .dot { background:#23402f; animation:livepulse 2s infinite; }
+  @keyframes livepulse { 0%{box-shadow:0 0 0 0 rgba(35,64,47,.5)} 70%{box-shadow:0 0 0 7px rgba(35,64,47,0)} 100%{box-shadow:0 0 0 0 rgba(35,64,47,0)} }
   .kbar .spacer { margin-left:auto; }
   .ktoggle { font-family:inherit; font-weight:700; font-size:.82rem; cursor:pointer; padding:8px 15px; border-radius:999px; border:1.5px solid var(--line); background:transparent; color:var(--espresso); }
   .ktoggle:hover { background:var(--parchment-2); }
   .kbar a.menu-link { color:var(--pine); font-weight:700; text-decoration:none; font-size:.86rem; }
 
   .board { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; padding:22px 26px 60px; max-width:1500px; margin:0 auto; }
-  .col { background:#fbf8f3; border:1px solid var(--line); border-radius:18px; padding:14px; min-height:60vh; }
+  .col { background:#f5e6ca; border:1px solid var(--line); border-radius:18px; padding:14px; min-height:60vh; }
   .col-head { display:flex; align-items:center; justify-content:space-between; padding:6px 8px 14px; }
   .col-head h2 { font-size:1.15rem; color:var(--espresso); letter-spacing:.02em; }
   .col-head .cnt { font-family:"Fraunces",serif; font-weight:600; font-size:1.4rem; min-width:34px; height:34px; padding:0 8px; display:grid; place-items:center; border-radius:10px; color:#fff; }
-  .col.new   .col-head .cnt { background:#d99a2e; }
-  .col.preparing .col-head .cnt { background:#b5541e; }
-  .col.ready .col-head .cnt { background:#109070; }
+  .col.new   .col-head .cnt { background:#b8914f; }
+  .col.preparing .col-head .cnt { background:#571e24; }
+  .col.ready .col-head .cnt { background:#23402f; }
   .col-body { display:flex; flex-direction:column; gap:13px; }
 
-  .kcard { background:#fff; color:var(--espresso); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); position:relative; overflow:hidden; animation:pop .35s cubic-bezier(.34,1.56,.64,1); }
+  .kcard { background:#fbf4e6; color:var(--espresso); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); position:relative; overflow:hidden; animation:pop .35s cubic-bezier(.34,1.56,.64,1); }
   @keyframes pop { from{ opacity:0; transform:translateY(-8px) scale(.97);} to{opacity:1; transform:none;} }
   .kcard::before { content:""; position:absolute; left:0; top:0; bottom:0; width:5px; }
-  .kcard.new::before { background:#d99a2e; }
-  .kcard.preparing::before { background:#b5541e; }
-  .kcard.ready::before { background:#109070; }
+  .kcard.new::before { background:#b8914f; }
+  .kcard.preparing::before { background:#571e24; }
+  .kcard.ready::before { background:#23402f; }
   .kcard-top { display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:4px; }
   .knum { font-family:"Fraunces",serif; font-weight:600; font-size:1.5rem; color:var(--pine); }
   .kwho { text-align:right; }
   .kwho .tag { display:inline-block; font-weight:800; font-size:.82rem; padding:4px 11px; border-radius:999px; letter-spacing:.01em; }
-  .kwho .tag.table { background:#109070; color:#eafffb; }
+  .kwho .tag.table { background:#23402f; color:#f7ecd6; }
   .kwho .tag.counter { background:#d4623c; color:#fff; }
   .kwho .nm { display:block; font-weight:700; font-size:1.02rem; margin-top:3px; }
   .kitems { list-style:none; margin:10px 0 12px; padding:0; }
@@ -66,8 +67,8 @@
   .ktime.late { color:var(--rust); }
   .adv { font-family:inherit; font-weight:800; font-size:.86rem; cursor:pointer; border:none; padding:10px 15px; border-radius:10px; background:var(--pine); color:#fff; transition:transform .14s, filter .2s; }
   .adv:hover { transform:translateY(-1px); filter:brightness(1.08); }
-  .adv.ready { background:#109070; }
-  .adv.done { background:#0e6f56; }
+  .adv.ready { background:#23402f; }
+  .adv.done { background:#1a3024; }
   .empty { text-align:center; color:var(--coffee-soft); font-style:italic; padding:30px 10px; font-family:"Fraunces",serif; }
 
   @media (max-width:900px){ .board{ grid-template-columns:1fr; } }

@@ -3,21 +3,22 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="logo.png" type="image/png" />
 <title>Faseela — Billing / Cashier</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,500..700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" />
 <style>
-  .cbar { display:flex; align-items:center; gap:18px; padding:16px 26px; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; background:rgba(255,255,255,.88); backdrop-filter:saturate(160%) blur(10px); }
+  .cbar { display:flex; align-items:center; gap:18px; padding:16px 26px; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; background:rgba(248,238,219,.9); backdrop-filter:saturate(160%) blur(10px); }
   .cbar h1 { font-size:1.5rem; font-family:"Anton",sans-serif; font-weight:400; letter-spacing:.02em; text-transform:uppercase; }
   .cbar h1 small { display:block; font-family:"Hanken Grotesk"; font-weight:600; font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; color:var(--coffee-soft); margin-top:3px; }
   .cbar .spacer { margin-left:auto; }
   .cbar a { color:var(--pine); font-weight:700; text-decoration:none; font-size:.86rem; }
   .clive { display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:.82rem; padding:7px 14px; border-radius:999px; background:var(--parchment-2); }
-  .clive .dot { width:9px; height:9px; border-radius:50%; background:#caa23a; }
-  .clive.on .dot { background:#109070; animation:livepulse 2s infinite; }
-  @keyframes livepulse { 0%{box-shadow:0 0 0 0 rgba(31,157,99,.5)} 70%{box-shadow:0 0 0 7px rgba(31,157,99,0)} 100%{box-shadow:0 0 0 0 rgba(31,157,99,0)} }
+  .clive .dot { width:9px; height:9px; border-radius:50%; background:#b8914f; }
+  .clive.on .dot { background:#23402f; animation:livepulse 2s infinite; }
+  @keyframes livepulse { 0%{box-shadow:0 0 0 0 rgba(35,64,47,.5)} 70%{box-shadow:0 0 0 7px rgba(35,64,47,0)} 100%{box-shadow:0 0 0 0 rgba(35,64,47,0)} }
 
   .summary { display:flex; gap:14px; flex-wrap:wrap; padding:18px 26px 0; max-width:1300px; margin:0 auto; }
   .stat { background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:14px 18px; min-width:150px; }
@@ -30,7 +31,7 @@
   .ccol-head h2 { font-size:1.2rem; }
   .ccol-head .cnt { font-family:"Fraunces",serif; font-weight:600; font-size:1.3rem; min-width:32px; height:32px; display:grid; place-items:center; border-radius:9px; padding:0 8px; }
   .ccol.unpaid .cnt { background:var(--rust); color:#fff; }
-  .ccol.paid .cnt { background:#109070; color:#fff; }
+  .ccol.paid .cnt { background:#23402f; color:#fff; }
   .ccol-body { display:flex; flex-direction:column; gap:14px; }
   .empty { text-align:center; color:var(--coffee-soft); font-style:italic; font-family:"Fraunces",serif; padding:30px; }
 
@@ -40,7 +41,7 @@
   .bnum { font-family:"Fraunces",serif; font-weight:600; font-size:1.45rem; color:var(--pine); }
   .bwho { text-align:right; }
   .bwho .tag { display:inline-block; font-weight:800; font-size:.74rem; padding:3px 10px; border-radius:999px; }
-  .bwho .tag.table { background:#109070; color:#eafffb; }
+  .bwho .tag.table { background:#23402f; color:#f7ecd6; }
   .bwho .tag.counter { background:#d4623c; color:#fff; }
   .bwho .nm { display:block; font-weight:700; font-size:.95rem; margin-top:3px; }
   .bill { width:100%; border-collapse:collapse; margin:10px 0; font-size:.92rem; }
@@ -53,12 +54,12 @@
   .bmeta { display:flex; align-items:center; gap:8px; margin:12px 0; font-size:.78rem; }
   .pill { padding:4px 10px; border-radius:999px; font-weight:700; font-size:.74rem; }
   .pill.method { background:var(--parchment-2); color:var(--coffee); }
-  .pill.unpaid { background:rgba(212,98,60,.14); color:var(--rust); }
-  .pill.paidp { background:rgba(31,157,99,.16); color:#1c7d4d; }
+  .pill.unpaid { background:rgba(140,58,66,.14); color:var(--rust); }
+  .pill.paidp { background:rgba(35,64,47,.16); color:#23402f; }
   .bactions { display:flex; gap:8px; flex-wrap:wrap; }
   .bbtn { font-family:inherit; font-weight:700; font-size:.84rem; cursor:pointer; padding:10px 14px; border-radius:10px; border:1.5px solid var(--line); background:var(--parchment); color:var(--espresso); transition:transform .14s, background .2s; }
   .bbtn:hover { transform:translateY(-1px); }
-  .bbtn.cash { background:#109070; color:#fff; border-color:#109070; }
+  .bbtn.cash { background:#23402f; color:#fff; border-color:#23402f; }
   .bbtn.card { background:var(--pine); color:#fff; border-color:var(--pine); }
   .bbtn.ghost { background:transparent; }
 
@@ -68,8 +69,8 @@
   .bloyal .lbtn { font-family:inherit; font-weight:800; font-size:.8rem; cursor:pointer; padding:8px 16px; border-radius:9px; border:none; background:var(--amber); color:#fff; }
   .bloyal .lbtn:hover { filter:brightness(1.05); }
   .bloyal .lph { font-weight:700; color:var(--coffee); }
-  .bloyal .lpts { background:rgba(212,150,40,.18); color:#8a5a12; font-weight:800; padding:3px 9px; border-radius:999px; }
-  .bloyal .lnew { color:#1c7d4d; font-weight:700; }
+  .bloyal .lpts { background:rgba(184,145,79,.2); color:#6b4a1e; font-weight:800; padding:3px 9px; border-radius:999px; }
+  .bloyal .lnew { color:#23402f; font-weight:700; }
   .bloyal .lpend { color:var(--coffee-soft); font-weight:600; }
   .bloyal .lx { margin-left:auto; border:none; background:transparent; color:var(--coffee-soft); cursor:pointer; font-size:.95rem; line-height:1; padding:2px 4px; }
   .bloyal .lx:hover { color:var(--rust); }

@@ -1,53 +1,53 @@
 /* ============================================================
-   FASEELA — north-woods cabin / editorial aesthetic
-   Parchment + espresso + pine, caramel accent.
+   FASEELA — shared staff-screen styles
+   Parchment + maroon + deep green, from the printed menu.
    Fraunces (display) · Hanken Grotesk (body)
    ============================================================ */
 
 :root {
-  /* Shared LIGHT storefront system (matches index.html / menu.css).
-     Real Faseela brand: coffee brown #703818 + green #109070 on warm white.
+  /* Shared LIGHT system: parchment + maroon + deep green, from the printed menu.
      Semantic names kept so all existing rules cascade:
      --parchment = page bg · --cream = card surface · --espresso = text
-     --pine = primary (brown) · --amber/--caramel = green accents · --gold. */
-  --parchment: #f2eee7;
+     --pine = primary (maroon) · --amber/--caramel = green accents · --gold. */
+  --parchment: #efdcbd;
   /* page background (warm off-white) */
-  --parchment-2: #eae1d4;
+  --parchment-2: #e6cfa9;
   /* raised surface / tracks */
-  --cream: #ffffff;
+  --cream: #f8eedb;
   /* cards */
-  --espresso: #23180d;
+  --espresso: #2e1d14;
   /* primary text (espresso) */
-  --coffee: #6f5f4c;
+  --coffee: #5e4836;
   /* secondary text */
-  --coffee-soft: #8b7c6b;
+  --coffee-soft: #7d6650;
   /* muted text */
-  --pine: #703818;
-  /* primary — brand brown */
-  --pine-deep: #5a2c12;
-  --amber: #109070;
-  /* accent — brand green */
-  --caramel: #1fae89;
-  /* accent — light green */
-  --gold: #c8912f;
+  --pine: #571e24;
+  /* primary — maroon */
+  --pine-deep: #3f1519;
+  --amber: #23402f;
+  /* accent — deep green */
+  --caramel: #2f5a40;
+  /* accent — lighter green */
+  --gold: #b8914f;
   /* gold highlight */
-  --rust: #d64533;
+  --rust: #8c3a42;
   /* warm red CTA / attention */
-  --berry: #c8467f;
+  --berry: #8c3a42;
   /* berry */
-  --line: rgba(35, 24, 13, 0.12);
-  --shadow: 0 10px 30px -14px rgba(74, 48, 22, 0.28);
+  --line: rgba(87, 30, 36, 0.14);
+  --shadow: 0 10px 30px -14px rgba(87, 30, 36, 0.22);
   --radius: 18px;
 
   /* imagery placeholder tones */
-  --tone-mocha: linear-gradient(150deg, #8a5a2f, #40230f);
-  --tone-caramel: linear-gradient(150deg, #ffb24d, #d2691a);
-  --tone-green: linear-gradient(150deg, #2ef0d4, #0f7d6e);
-  --tone-berry: linear-gradient(150deg, #ff7eae, #b3305f);
-  --tone-coffee: linear-gradient(150deg, #a06a3c, #4a3018);
-  --tone-espresso: linear-gradient(150deg, #4a3626, #1a1109);
-  --tone-cream: linear-gradient(150deg, #ffe6b0, #d2a85e);
-  --tone-wheat: linear-gradient(150deg, #ffcf7a, #c2872f);
+  --tone-mocha:    linear-gradient(150deg, #7a5236, #3e2618);
+  --tone-caramel:  linear-gradient(150deg, #c9a161, #8a6630);
+  --tone-green:    linear-gradient(150deg, #4f7a5c, #23402f);
+  --tone-berry:    linear-gradient(150deg, #8c3a42, #571e24);
+  --tone-coffee:   linear-gradient(150deg, #8a6446, #4a3020);
+  --tone-espresso: linear-gradient(150deg, #4a3326, #241710);
+  --tone-cream:    linear-gradient(150deg, #e6cfa4, #b8914f);
+  --tone-wheat:    linear-gradient(150deg, #d9b97e, #a07a3e);
+  --tone-cold:     linear-gradient(150deg, #7f9c8c, #3f5f50);
 }
 
 * {
@@ -65,8 +65,8 @@ body {
   color: var(--espresso);
   background-color: var(--parchment);
   background-image:
-    radial-gradient(1100px 560px at 82% -10%, rgba(114, 62, 30, 0.07), transparent 60%),
-    radial-gradient(900px 500px at -10% 8%, rgba(20, 147, 114, 0.06), transparent 55%);
+    radial-gradient(1100px 560px at 82% -10%, rgba(87, 30, 36, 0.06), transparent 60%),
+    radial-gradient(900px 500px at -10% 8%, rgba(35, 64, 47, 0.06), transparent 55%);
   background-attachment: fixed;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -108,7 +108,7 @@ h3,
   top: 0;
   z-index: 100;
   backdrop-filter: saturate(160%) blur(12px);
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(248, 238, 219, 0.9);
   border-bottom: 1px solid var(--line);
 }
 
@@ -1102,9 +1102,9 @@ h3,
 }
 
 .ordertype button.active {
-  background: rgba(255, 122, 26, 0.14);
+  background: rgba(87, 30, 36, 0.1);
   color: var(--gold);
-  box-shadow: inset 0 0 0 1px rgba(255, 122, 26, 0.4);
+  box-shadow: inset 0 0 0 1px rgba(87, 30, 36, 0.3);
 }
 
 .paytype {
@@ -1140,9 +1140,9 @@ h3,
 }
 
 .paytype button.active {
-  background: rgba(255, 122, 26, 0.14);
+  background: rgba(87, 30, 36, 0.1);
   color: var(--gold);
-  box-shadow: inset 0 0 0 1px rgba(255, 122, 26, 0.4);
+  box-shadow: inset 0 0 0 1px rgba(87, 30, 36, 0.3);
 }
 
 .paidline {
@@ -1153,8 +1153,8 @@ h3,
 }
 
 .paidline.paid {
-  background: rgba(31, 157, 99, .14);
-  color: #1c7d4d;
+  background: rgba(35, 64, 47, .14);
+  color: #23402f;
   font-weight: 700;
 }
 
@@ -1332,7 +1332,7 @@ h3,
 
 .place-btn:hover {
   transform: translateY(-2px);
-  background: #b94f24;
+  background: #571e24;
 }
 
 .place-btn:disabled {

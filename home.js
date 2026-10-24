@@ -31,7 +31,7 @@
     }
     const vibe = document.getElementById("vibeGrid");
     if (vibe) {
-      const tones = { hot: "coffee", espresso: "caramel", cold: "green", smoothie: "berry", tea: "cream", food: "wheat" };
+      const tones = { sandwiches: "green", pastries: "berry", desserts: "caramel" }; // green / maroon / gold, like the printed menu bands
       vibe.innerHTML = categories.filter((c) => c.id !== "featured").map((c) => `
       <a class="vibe-tile reveal" href="index.html#${c.id}" style="background:var(--tone-${tones[c.id] || "coffee"})">
         <span class="vt">${esc(c.label)}</span>

@@ -19,7 +19,7 @@
   const $ = (id) => document.getElementById(id);
   const fmt = (n) => "din " + (Number(n) || 0).toFixed(3);
   const esc = (s) => String(s == null ? "" : s).replace(/[<>&"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]));
-  const CUP = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h12v6a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/><path d="M17 10h2.5a2.5 2.5 0 0 1 0 5H17"/></svg>`;
+  const PLATE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5" opacity=".7"/></svg>`;
 
   let toastTimer;
   function toast(msg) {
@@ -148,7 +148,7 @@
   /* ---------- catalog render ---------- */
   function thumb(p) {
     if (p.image) return `<div class="pthumb" style="background-image:url('${esc(p.image)}')"></div>`;
-    return `<div class="pthumb" style="background:var(--tone-${esc(p.tone || "cream")})">${CUP}</div>`;
+    return `<div class="pthumb" style="background:var(--tone-${esc(p.tone || "cream")})">${PLATE}</div>`;
   }
   function productRow(p) {
     return `<div class="prow" data-id="${esc(p.id)}">

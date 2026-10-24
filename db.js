@@ -68,7 +68,7 @@ function ensureColumn(table, col, decl) {
 ensureColumn("orders", "phone", "phone TEXT");
 ensureColumn("orders", "points_awarded", "points_awarded INTEGER NOT NULL DEFAULT 0");
 
-const POINTS_PER_DOLLAR = 1; // 1 point per $1 of the paid total
+const POINTS_PER_DOLLAR = 1; // 1 point per 1 din of the paid total
 
 /* ---------- stores (with per-store login) + per-store catalog ---------- */
 function tableExists(t) { return !!db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`).get(t); }
